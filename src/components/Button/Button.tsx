@@ -1,5 +1,6 @@
 import { ReactNode } from "react";
 import { StyledButton } from "./style";
+import { motion } from "framer-motion";
 
 interface IProps {
   children: ReactNode;

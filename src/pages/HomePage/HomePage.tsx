@@ -14,7 +14,7 @@ export const HomePage = () => {
         <Title grade={1} color={Color.DarkBluePrim}>
           We really are care about you health!
         </Title>
-        <Button type="button">Let's find your top doctor!</Button>
+        <Button type="button">Let's find your top doctor</Button>
       </GreetingWrapper>
     </Page>
   );

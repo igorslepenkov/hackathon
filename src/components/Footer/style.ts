@@ -12,6 +12,7 @@ export const StyledFooter = styled.footer`
 
   ${Media.SM} {
     flex-direction: row;
+    justify-content: space-between;
   }
 `;
 
