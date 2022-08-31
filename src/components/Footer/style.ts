@@ -14,6 +14,10 @@ export const StyledFooter = styled.footer`
     flex-direction: row;
     justify-content: space-between;
   }
+
+  ${Media.MD} {
+    border-radius: 40px 40px 0 0;
+  }
 `;
 
 export const FooterParagraph = styled.p`
