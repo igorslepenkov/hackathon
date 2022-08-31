@@ -23,7 +23,6 @@ export const StyledCheckboxLabel = styled.label`
   align-items: center;
   gap: 5px;
   margin-right: 10px;
-
   ${fonts.h5}
   color: ${Color.DarkBluePrim};
   text-transform: capitalize;

@@ -1,3 +1,4 @@
+import { useEffect, useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { emailRegex } from "../../regex";
 import { Button } from "../Button";
@@ -7,11 +8,19 @@ import { FormInput } from "../FormInput";
 import { FormLabel } from "../FormLabel";
 import { FormWrapper } from "../FormWrapper";
 
-interface FormValues {
+interface FirstPageFormValues {
   email: string;
   password: string;
   confirm: string;
   role: string;
+  file: FileList;
+}
+
+interface SecondPageFormValues {
+  firstName: string;
+  lastName: string;
+  contactPhone: string;
+  specialty: string;
 }
 
 export const SignUpForm = () => {
@@ -22,8 +31,13 @@ export const SignUpForm = () => {
     reset,
     formState: { errors },
     setError,
-  } = useForm<FormValues>();
-  const onSubmit = ({ email, password, confirm, role }: FormValues) => {
+  } = useForm<FirstPageFormValues>();
+  const onSubmitFirstPage = ({
+    email,
+    password,
+    confirm,
+    role,
+  }: FirstPageFormValues) => {
     if (password !== confirm) {
       setError("confirm", {
         type: "required",
@@ -35,7 +49,7 @@ export const SignUpForm = () => {
   };
 
   return (
-    <FormWrapper onSubmit={handleSubmit(onSubmit)}>
+    <FormWrapper onSubmit={handleSubmit(onSubmitFirstPage)}>
       <FormLabel htmlFor="email">Email</FormLabel>
       <FormInput
         {...register("email", {

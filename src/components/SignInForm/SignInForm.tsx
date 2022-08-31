@@ -5,6 +5,7 @@ import { FormErrorNotification } from "../FormErrorNotification";
 import { FormInput } from "../FormInput";
 import { FormLabel } from "../FormLabel";
 import { FormWrapper } from "../FormWrapper";
+import { v4 as uuidv4 } from "uuid";
 
 interface FormValues {
   email: string;

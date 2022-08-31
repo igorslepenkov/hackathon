@@ -1,5 +1,6 @@
 import { ReactNode } from "react";
 import { StyledButton } from "./style";
+import { v4 as uuidv4 } from "uuid";
 
 interface IProps {
   children: ReactNode;
@@ -8,5 +9,9 @@ interface IProps {
 }
 
 export const Button = ({ children, ...props }: IProps) => {
-  return <StyledButton {...props}>{children}</StyledButton>;
+  return (
+    <StyledButton id={uuidv4()} {...props}>
+      {children}
+    </StyledButton>
+  );
 };

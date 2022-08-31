@@ -3,6 +3,7 @@ import { Color, fonts } from "../../ui";
 
 export const Input = styled.input`
   flex-grow: 1;
+  width: 100%;
   padding: 5px 20px;
   ${fonts.h5}
   color: ${Color.DarkBluePrim};

@@ -4,6 +4,7 @@ import {
   StyledCheckboxLabel,
   StyledCheckboxVisible,
 } from "./style";
+import { v4 as uuidv4 } from "uuid";
 
 interface IProps {
   value: string;
@@ -20,10 +21,10 @@ export const CheckboxGroup = ({
   ...props
 }: IProps) => {
   return (
-    <StyledCheckboxGroup>
+    <StyledCheckboxGroup id={uuidv4()}>
       {checkboxes.map((checkbox) => {
         return (
-          <StyledCheckboxLabel htmlFor={checkbox} key={checkbox}>
+          <StyledCheckboxLabel htmlFor={checkbox} key={checkbox} id={uuidv4()}>
             {checkbox}
             <StyledCheckbox
               id={checkbox}
@@ -32,7 +33,7 @@ export const CheckboxGroup = ({
               checked={value === checkbox}
               {...props}
             />
-            <StyledCheckboxVisible htmlFor={checkbox} />
+            <StyledCheckboxVisible htmlFor={checkbox} id={uuidv4()} />
           </StyledCheckboxLabel>
         );
       })}

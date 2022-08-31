@@ -8,7 +8,7 @@ export const StyledButton = styled.button`
   ${fonts.h4}
   color: ${Color.White};
   background-color: ${Color.BluePrimary};
-  border-radius: 46px;
   border: none;
+  border-radius: 46px;
   cursor: pointer;
 `;

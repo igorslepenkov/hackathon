@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { Color, fonts } from "../../ui";
+import { Color, fonts, Media } from "../../ui";
 
 interface ITabProps {
   isActive: boolean;
@@ -8,11 +8,14 @@ interface ITabProps {
 export const RegistrationPageWrapper = styled.div`
   display: grid;
   grid-template-rows: auto;
-  margin: auto;
+  margin: auto 0;
 
-  padding: 20px;
-  border: 1px solid ${Color.BluePrimary};
-  border-radius: 20px;
+  ${Media.SM} {
+    padding: 20px;
+    margin: auto;
+    border: 1px solid ${Color.BluePrimary};
+    border-radius: 20px;
+  }
 `;
 
 export const FormTabsGroup = styled.div`
