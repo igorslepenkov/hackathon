@@ -1,0 +1,12 @@
+services:
+  app:
+    container_name: hackathon-client
+    env_file:
+      - .env
+    build: 
+      context: ./
+    ports: 
+      - ${PORT}:${PORT}
+    working_dir: /app
+    restart: always
+

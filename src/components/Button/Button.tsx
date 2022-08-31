@@ -4,7 +4,7 @@ import { StyledButton } from "./style";
 interface IProps {
   children: ReactNode;
   type?: "button" | "submit" | "reset" | undefined;
-  handler?: () => void;
+  onClick?: () => void;
 }
 
 export const Button = ({ children, ...props }: IProps) => {
