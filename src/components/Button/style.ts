@@ -2,8 +2,8 @@ import styled from "styled-components";
 import { Color, fonts } from "../../ui";
 
 export const StyledButton = styled.button`
-  justify-self: center;
-  width: fit-content;
+  margin-top: 10px;
+  margin-bottom: 10px;
   padding: 20px 40px;
   ${fonts.h4}
   color: ${Color.White};

@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { Color, Media } from "../../ui";
+import { Media } from "../../ui";
 
 export const StyledFormWrapper = styled.form`
   display: grid;
@@ -11,8 +11,5 @@ export const StyledFormWrapper = styled.form`
   ${Media.MD} {
     width: fit-content;
     min-width: 500px;
-    padding: 20px;
-    border: 1px solid ${Color.BluePrimary};
-    border-radius: 20px;
   }
 `;
