@@ -6,13 +6,14 @@ interface ITabProps {
 }
 
 export const RegistrationPageWrapper = styled.div`
+  align-self: center;
   display: grid;
   grid-template-rows: auto;
-  margin: auto 0;
+  margin: 20px 0;
 
   ${Media.SM} {
     padding: 20px;
-    margin: auto;
+    margin: 20px auto;
     border: 1px solid ${Color.BluePrimary};
     border-radius: 20px;
   }

@@ -10,7 +10,6 @@ import { v4 as uuidv4 } from "uuid";
 export const HomePage = () => {
   const navigate = useNavigate();
   const handleButtonClick = () => {
-    console.log("Hello");
     navigate(ROUTE.REGISTER);
   };
   return (

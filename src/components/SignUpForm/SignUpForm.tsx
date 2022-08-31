@@ -7,20 +7,34 @@ import { FormErrorNotification } from "../FormErrorNotification";
 import { FormInput } from "../FormInput";
 import { FormLabel } from "../FormLabel";
 import { FormWrapper } from "../FormWrapper";
+import { isValidPhoneNumber } from "libphonenumber-js";
 
-interface FirstPageFormValues {
+interface IFormValues {
   email: string;
   password: string;
   confirm: string;
-  role: string;
-  file: FileList;
+  role: "patient" | "doctor";
+  phone: string;
+  specialty: string;
+  document: string;
+  birthDate: string;
 }
 
-interface SecondPageFormValues {
-  firstName: string;
-  lastName: string;
-  contactPhone: string;
-  specialty: string;
+interface IDoctor {
+  email: string;
+  password: string;
+  role: "doctor";
+  phone: string;
+  specialty?: string;
+  document?: string;
+}
+
+interface IPatient {
+  email: string;
+  password: string;
+  role: "patient";
+  phone: string;
+  birthDate?: string;
 }
 
 export const SignUpForm = () => {
@@ -31,13 +45,30 @@ export const SignUpForm = () => {
     reset,
     formState: { errors },
     setError,
-  } = useForm<FirstPageFormValues>();
-  const onSubmitFirstPage = ({
+    watch,
+  } = useForm<IFormValues>();
+  console.log(errors);
+  const [activePage, setActivePage] = useState<"first" | "doctor" | "patient">(
+    "first"
+  );
+
+  const checkboxValue = watch("role");
+  useEffect(() => {
+    if (checkboxValue) {
+      setActivePage(checkboxValue);
+    }
+  }, [checkboxValue]);
+
+  const onSubmit = ({
     email,
     password,
     confirm,
     role,
-  }: FirstPageFormValues) => {
+    phone,
+    specialty,
+    document,
+    birthDate,
+  }: IFormValues) => {
     if (password !== confirm) {
       setError("confirm", {
         type: "required",
@@ -45,11 +76,40 @@ export const SignUpForm = () => {
       });
       return;
     }
+
+    let userCred = {};
+
+    switch (role) {
+      case "patient":
+        const patientCred: IPatient = {
+          email,
+          password,
+          role,
+          phone,
+          birthDate,
+        };
+        userCred = patientCred;
+        break;
+
+      case "doctor":
+        const doctorCred: IDoctor = {
+          email,
+          password,
+          role,
+          phone,
+          specialty,
+          document,
+        };
+        userCred = doctorCred;
+        break;
+    }
+
+    console.log(userCred);
     reset();
   };
 
   return (
-    <FormWrapper onSubmit={handleSubmit(onSubmitFirstPage)}>
+    <FormWrapper onSubmit={handleSubmit(onSubmit)}>
       <FormLabel htmlFor="email">Email</FormLabel>
       <FormInput
         {...register("email", {
@@ -101,6 +161,20 @@ export const SignUpForm = () => {
         <FormErrorNotification message={errors.confirm.message} />
       )}
 
+      <FormLabel htmlFor="phone">Phone</FormLabel>
+      <FormInput
+        {...register("phone", {
+          required: "Please enter your phone number",
+          validate: (value) => isValidPhoneNumber(value),
+        })}
+        id="phone"
+        type="phone"
+        placeholder="Enter your phone"
+      />
+      {errors.phone && (
+        <FormErrorNotification message={"Invalid phone number"} />
+      )}
+
       <FormLabel>Choose your role:</FormLabel>
       <Controller
         control={control}
@@ -120,6 +194,54 @@ export const SignUpForm = () => {
       />
       {errors.role && errors.role.message && (
         <FormErrorNotification message={errors.role.message} />
+      )}
+
+      {activePage === "doctor" && (
+        <>
+          <FormLabel htmlFor="specialty">Specilaty</FormLabel>
+          <FormInput
+            {...register("specialty", {
+              required: "Please enter your specialty",
+              minLength: {
+                value: 4,
+                message: "Please enter at list 4 symbols",
+              },
+            })}
+            id="specialty"
+            type="text"
+            placeholder="Enter your specialty"
+          />
+          {errors.specialty && errors.specialty.message && (
+            <FormErrorNotification message={errors.specialty.message} />
+          )}
+
+          <FormLabel htmlFor="document">Document</FormLabel>
+          <FormInput
+            {...register("document", {
+              required:
+                "Please enter series and number of your higher medical education diploma",
+            })}
+            id="document"
+            type="text"
+            placeholder="Enter your diploma series and number"
+          />
+          {errors.document && errors.document.message && (
+            <FormErrorNotification message={errors.document.message} />
+          )}
+        </>
+      )}
+
+      {activePage === "patient" && (
+        <>
+          <FormLabel>Birth Date</FormLabel>
+          <FormInput
+            {...register("birthDate", {
+              required: "Please enter your birth date",
+            })}
+            id="specialty"
+            type="date"
+          />
+        </>
       )}
 
       <Button type="submit">Sumbit</Button>

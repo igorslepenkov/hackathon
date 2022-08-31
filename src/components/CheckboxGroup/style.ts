@@ -1,5 +1,10 @@
 import styled from "styled-components";
+import { css } from "styled-components";
 import { Color, fonts } from "../../ui";
+
+interface VisibleCheckboxProps {
+  isActive: boolean;
+}
 
 export const StyledCheckboxGroup = styled.div`
   display: flex;
@@ -13,9 +18,6 @@ export const StyledCheckbox = styled.input.attrs({ type: "radio" })`
   height: 20px;
   opacity: 0;
   border: none;
-  &:focus + label {
-    background-color: ${Color.YellowPrimary};
-  }
 `;
 
 export const StyledCheckboxLabel = styled.label`
@@ -28,11 +30,21 @@ export const StyledCheckboxLabel = styled.label`
   text-transform: capitalize;
 `;
 
-export const StyledCheckboxVisible = styled.label`
+export const StyledCheckboxVisible = styled.label<VisibleCheckboxProps>`
   position: relative;
   display: block;
   width: 20px;
   height: 20px;
   border-radius: 50%;
-  background-color: ${Color.DarBlueSec};
+  ${({ isActive }) => {
+    if (isActive) {
+      return css`
+        background-color: ${Color.YellowPrimary};
+      `;
+    } else {
+      return css`
+        background-color: ${Color.DarBlueSec};
+      `;
+    }
+  }}
 `;
