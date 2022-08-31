@@ -8,4 +8,5 @@ export enum Color {
   DarBlueSec = "#080C2F80",
   Gray = "#F0F0F0",
   YellowPrimary = "#F9DE56",
+  Danger = "#FF0E0E",
 }
