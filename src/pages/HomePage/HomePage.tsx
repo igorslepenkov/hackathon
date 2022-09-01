@@ -5,16 +5,16 @@ import { Title } from "../../components/Title";
 import { ROUTE } from "../../router";
 import { Color } from "../../ui";
 import { GreetingWrapper } from "./style";
+import { v4 as uuidv4 } from "uuid";
 
 export const HomePage = () => {
   const navigate = useNavigate();
   const handleButtonClick = () => {
-    console.log("Hello");
     navigate(ROUTE.REGISTER);
   };
   return (
     <Page>
-      <GreetingWrapper>
+      <GreetingWrapper id={uuidv4()}>
         <Title grade={3} color={Color.YellowPrimary}>
           Welcome to WeCareApp
         </Title>

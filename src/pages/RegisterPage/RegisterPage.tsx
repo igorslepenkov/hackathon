@@ -3,6 +3,7 @@ import { Page } from "../../components/Page";
 import { SignInForm } from "../../components/SignInForm";
 import { SignUpForm } from "../../components/SignUpForm";
 import { FormTab, FormTabsGroup, RegistrationPageWrapper } from "./style";
+import { v4 as uuidv4 } from "uuid";
 
 export const RegisterPage = () => {
   const [activeTab, setActiveTab] = useState<string>("signup");
@@ -29,9 +30,10 @@ export const RegisterPage = () => {
 
   return (
     <Page>
-      <RegistrationPageWrapper>
-        <FormTabsGroup>
+      <RegistrationPageWrapper id={uuidv4()}>
+        <FormTabsGroup id={uuidv4()}>
           <FormTab
+            id={uuidv4()}
             data-tab="signup"
             tabIndex={0}
             isActive={activeTab === "signup"}
@@ -41,6 +43,7 @@ export const RegisterPage = () => {
             Sign Up
           </FormTab>
           <FormTab
+            id={uuidv4()}
             data-tab="signin"
             tabIndex={0}
             isActive={activeTab === "signin"}

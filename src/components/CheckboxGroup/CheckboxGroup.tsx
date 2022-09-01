@@ -4,6 +4,8 @@ import {
   StyledCheckboxLabel,
   StyledCheckboxVisible,
 } from "./style";
+import { v4 as uuidv4 } from "uuid";
+import { useEffect, useState } from "react";
 
 interface IProps {
   value: string;
@@ -19,20 +21,32 @@ export const CheckboxGroup = ({
   value,
   ...props
 }: IProps) => {
+  const [activeCheckbox, setActiveCheckbox] = useState<string>();
+
+  useEffect(() => {
+    if (value) {
+      setActiveCheckbox(value);
+    }
+  }, [value]);
+
   return (
-    <StyledCheckboxGroup>
+    <StyledCheckboxGroup id={uuidv4()}>
       {checkboxes.map((checkbox) => {
         return (
-          <StyledCheckboxLabel htmlFor={checkbox} key={checkbox}>
+          <StyledCheckboxLabel htmlFor={checkbox} key={checkbox} id={uuidv4()}>
             {checkbox}
             <StyledCheckbox
               id={checkbox}
               name={name}
               value={checkbox}
-              checked={value === checkbox}
+              checked={activeCheckbox === checkbox ? true : false}
               {...props}
             />
-            <StyledCheckboxVisible htmlFor={checkbox} />
+            <StyledCheckboxVisible
+              htmlFor={checkbox}
+              id={uuidv4()}
+              isActive={activeCheckbox === checkbox ? true : false}
+            />
           </StyledCheckboxLabel>
         );
       })}
