@@ -1,18 +1,22 @@
 import styled from "styled-components";
-import { Color, fonts } from "../../ui";
+import { Color, fonts, Media } from "../../ui";
 
 interface ITabProps {
   isActive: boolean;
 }
 
 export const RegistrationPageWrapper = styled.div`
+  align-self: center;
   display: grid;
   grid-template-rows: auto;
-  margin: auto;
+  margin: 20px 0;
 
-  padding: 20px;
-  border: 1px solid ${Color.BluePrimary};
-  border-radius: 20px;
+  ${Media.SM} {
+    padding: 20px;
+    margin: 20px auto;
+    border: 1px solid ${Color.BluePrimary};
+    border-radius: 20px;
+  }
 `;
 
 export const FormTabsGroup = styled.div`

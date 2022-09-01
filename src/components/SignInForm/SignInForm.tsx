@@ -1,5 +1,8 @@
 import { useForm } from "react-hook-form";
+import { resolvePath, useNavigate } from "react-router-dom";
 import { emailRegex } from "../../regex";
+import { ROUTE } from "../../router";
+import { backend } from "../../services/backend";
 import { Button } from "../Button";
 import { FormErrorNotification } from "../FormErrorNotification";
 import { FormInput } from "../FormInput";
@@ -18,7 +21,15 @@ export const SignInForm = () => {
     reset,
     formState: { errors },
   } = useForm<FormValues>();
+  const navigate = useNavigate();
   const onSubmit = ({ email, password }: FormValues) => {
+    const users = backend.getUsers();
+    const user = users.find(
+      (user) => user.email === email && user.password === password
+    );
+    if (user) {
+      navigate(resolvePath(ROUTE.ACCOUNT.replace(/:id/, user.id)));
+    }
     reset();
   };
 
