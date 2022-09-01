@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { Controller, useForm } from "react-hook-form";
-import { emailRegex } from "../../regex";
+import { emailRegex, nameRegex } from "../../regex";
 import { Button } from "../Button";
 import { CheckboxGroup } from "../CheckboxGroup";
 import { FormErrorNotification } from "../FormErrorNotification";
@@ -8,8 +8,11 @@ import { FormInput } from "../FormInput";
 import { FormLabel } from "../FormLabel";
 import { FormWrapper } from "../FormWrapper";
 import { isValidPhoneNumber } from "libphonenumber-js";
+import { IDoctor, IPatient } from "../../types";
+import { backend } from "../../services/backend";
 
 interface IFormValues {
+  name: string;
   email: string;
   password: string;
   confirm: string;
@@ -18,23 +21,6 @@ interface IFormValues {
   specialty: string;
   document: string;
   birthDate: string;
-}
-
-interface IDoctor {
-  email: string;
-  password: string;
-  role: "doctor";
-  phone: string;
-  specialty?: string;
-  document?: string;
-}
-
-interface IPatient {
-  email: string;
-  password: string;
-  role: "patient";
-  phone: string;
-  birthDate?: string;
 }
 
 export const SignUpForm = () => {
@@ -47,7 +33,6 @@ export const SignUpForm = () => {
     setError,
     watch,
   } = useForm<IFormValues>();
-  console.log(errors);
   const [activePage, setActivePage] = useState<"first" | "doctor" | "patient">(
     "first"
   );
@@ -60,6 +45,7 @@ export const SignUpForm = () => {
   }, [checkboxValue]);
 
   const onSubmit = ({
+    name,
     email,
     password,
     confirm,
@@ -77,39 +63,54 @@ export const SignUpForm = () => {
       return;
     }
 
-    let userCred = {};
-
-    switch (role) {
-      case "patient":
-        const patientCred: IPatient = {
-          email,
-          password,
-          role,
-          phone,
-          birthDate,
-        };
-        userCred = patientCred;
-        break;
-
-      case "doctor":
-        const doctorCred: IDoctor = {
-          email,
-          password,
-          role,
-          phone,
-          specialty,
-          document,
-        };
-        userCred = doctorCred;
-        break;
+    if (role === "patient") {
+      const patientCred: IPatient = {
+        name,
+        email,
+        password,
+        role,
+        phone,
+        birthDate,
+      };
+      backend.createUser(patientCred);
     }
 
-    console.log(userCred);
+    if (role === "doctor") {
+      const doctorCred: IDoctor = {
+        name,
+        email,
+        password,
+        role,
+        phone,
+        specialty,
+        document,
+      };
+      backend.createUser(doctorCred);
+    }
+
     reset();
   };
 
   return (
     <FormWrapper onSubmit={handleSubmit(onSubmit)}>
+      <FormLabel htmlFor="name">Name</FormLabel>
+      <FormInput
+        {...register("name", {
+          required: "Please enter your first and last name",
+          pattern: {
+            value: nameRegex,
+            message:
+              "Please enter your name like 'John Johnson' (<FirstName LastName>)",
+          },
+        })}
+        id="name"
+        type="text"
+        placeholder="John Johnson"
+      />
+      {errors.name && errors.name.message && (
+        <FormErrorNotification message={errors.name.message} />
+      )}
+
       <FormLabel htmlFor="email">Email</FormLabel>
       <FormInput
         {...register("email", {
@@ -125,6 +126,20 @@ export const SignUpForm = () => {
       />
       {errors.email && errors.email.message && (
         <FormErrorNotification message={errors.email.message} />
+      )}
+
+      <FormLabel htmlFor="phone">Phone</FormLabel>
+      <FormInput
+        {...register("phone", {
+          required: "Please enter your phone number",
+          validate: (value) => isValidPhoneNumber(value),
+        })}
+        id="phone"
+        type="phone"
+        placeholder="Enter your phone"
+      />
+      {errors.phone && (
+        <FormErrorNotification message={"Invalid phone number"} />
       )}
 
       <FormLabel htmlFor="password">Password</FormLabel>
@@ -159,20 +174,6 @@ export const SignUpForm = () => {
       />
       {errors.confirm && errors.confirm.message && (
         <FormErrorNotification message={errors.confirm.message} />
-      )}
-
-      <FormLabel htmlFor="phone">Phone</FormLabel>
-      <FormInput
-        {...register("phone", {
-          required: "Please enter your phone number",
-          validate: (value) => isValidPhoneNumber(value),
-        })}
-        id="phone"
-        type="phone"
-        placeholder="Enter your phone"
-      />
-      {errors.phone && (
-        <FormErrorNotification message={"Invalid phone number"} />
       )}
 
       <FormLabel>Choose your role:</FormLabel>
