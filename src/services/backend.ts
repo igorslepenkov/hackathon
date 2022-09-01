@@ -63,13 +63,16 @@ class Backend {
       return null;
     }
     this.DB.push(newUser);
-    console.log(this.DB);
     return newUser;
   };
 
   public getRandomUser = (): IUser => {
     const random = Math.round(Math.random() * (3 - 0) + 0);
     return this.DB[random];
+  };
+
+  public getUserByID = (id: string): IUser | undefined => {
+    return this.DB.find((user) => user.id === id);
   };
 }
 

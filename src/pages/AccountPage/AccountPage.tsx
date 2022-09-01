@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
 import { Page } from "../../components/Page";
 import { Title } from "../../components/Title";
 import { backend } from "../../services/backend";
@@ -12,8 +13,11 @@ import {
 
 export const AccountPage = () => {
   const [user, setUser] = useState<IUser>();
+  const params = useParams();
   useEffect(() => {
-    setUser(backend.getRandomUser());
+    if (params.id) {
+      setUser(backend.getUserByID(params.id));
+    }
   }, []);
   return (
     <Page>
