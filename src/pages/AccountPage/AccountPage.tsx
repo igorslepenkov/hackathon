@@ -1,3 +1,4 @@
+import React from "react";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { Page } from "../../components/Page";
@@ -18,7 +19,7 @@ export const AccountPage = () => {
     if (params.id) {
       setUser(backend.getUserByID(params.id));
     }
-  }, []);
+  }, [params.id]);
   return (
     <Page>
       <AccountPageContentWrapper>
