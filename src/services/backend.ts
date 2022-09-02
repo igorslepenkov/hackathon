@@ -56,7 +56,7 @@ class Backend {
     return this.DB.filter((user) => user.role === "doctor");
   };
 
-  public createUser = (userCred: IPatient | IDoctor): IUser | null => {
+  public signUp = (userCred: IPatient | IDoctor): IUser | null => {
     const newUser: IUser = Object.assign({}, userCred, { id: uuidv4() });
     if (this.DB.find((user) => user.email === newUser.email)) {
       alert("Such user allready exists");
@@ -73,6 +73,15 @@ class Backend {
 
   public getUserByID = (id: string): IUser | undefined => {
     return this.DB.find((user) => user.id === id);
+  };
+
+  public signIn = (email: string, password: string) => {
+    const user = this.DB.find((user) => user.email === email);
+    if (user) {
+      return user.password === password ? user : "invalid password";
+    } else {
+      return null;
+    }
   };
 }
 

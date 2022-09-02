@@ -72,7 +72,7 @@ export const SignUpForm = () => {
         phone,
         birthDate,
       };
-      backend.createUser(patientCred);
+      backend.signUp(patientCred);
     }
 
     if (role === "doctor") {
@@ -85,7 +85,7 @@ export const SignUpForm = () => {
         specialty,
         document,
       };
-      backend.createUser(doctorCred);
+      backend.signUp(doctorCred);
     }
 
     reset();

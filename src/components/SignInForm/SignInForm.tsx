@@ -1,8 +1,10 @@
 import { useForm } from "react-hook-form";
-import { resolvePath, useNavigate } from "react-router-dom";
+import { Navigate, resolvePath } from "react-router-dom";
 import { emailRegex } from "../../regex";
 import { ROUTE } from "../../router";
-import { backend } from "../../services/backend";
+import { signIn } from "../../store/features";
+import { useAppDispatch } from "../../store/hooks";
+import { getUser } from "../../store/selectors";
 import { Button } from "../Button";
 import { FormErrorNotification } from "../FormErrorNotification";
 import { FormInput } from "../FormInput";
@@ -21,17 +23,17 @@ export const SignInForm = () => {
     reset,
     formState: { errors },
   } = useForm<FormValues>();
-  const navigate = useNavigate();
+  const dispatch = useAppDispatch();
+  const user = getUser();
+
   const onSubmit = ({ email, password }: FormValues) => {
-    const users = backend.getUsers();
-    const user = users.find(
-      (user) => user.email === email && user.password === password
-    );
-    if (user) {
-      navigate(resolvePath(ROUTE.ACCOUNT.replace(/:id/, user.id)));
-    }
+    dispatch(signIn({ email, password }));
     reset();
   };
+
+  if (user) {
+    return <Navigate to={resolvePath(ROUTE.ACCOUNT.replace(/:id/, user.id))} />;
+  }
 
   return (
     <FormWrapper onSubmit={handleSubmit(onSubmit)}>

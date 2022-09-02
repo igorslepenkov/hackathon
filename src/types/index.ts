@@ -28,3 +28,10 @@ export interface IUser {
   document?: string;
   birthDate?: string;
 }
+
+export interface IDate {
+  year: number;
+  month: number;
+  day: number;
+  dayOfWeek: number;
+}

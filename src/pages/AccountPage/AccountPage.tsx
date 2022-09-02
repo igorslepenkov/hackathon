@@ -1,10 +1,6 @@
-import React from "react";
-import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
 import { Page } from "../../components/Page";
 import { Title } from "../../components/Title";
-import { backend } from "../../services/backend";
-import { IUser } from "../../types";
+import { getUser } from "../../store/selectors";
 import { Color } from "../../ui";
 import {
   AccountPageContentWrapper,
@@ -13,19 +9,14 @@ import {
 } from "./style";
 
 export const AccountPage = () => {
-  const [user, setUser] = useState<IUser>();
-  const params = useParams();
-  useEffect(() => {
-    if (params.id) {
-      setUser(backend.getUserByID(params.id));
-    }
-  }, [params.id]);
+  const user = getUser();
   return (
     <Page>
       <AccountPageContentWrapper>
         <Title grade={1} color={Color.BluePrimary}>
           Profile
         </Title>
+        <i className="fa-regular fa-arrow-right-from-bracket"></i>
         <AccountTable>
           <Title grade={3} color={Color.BluePrimary}>
             Name
