@@ -20,7 +20,6 @@ export const SignInForm = () => {
   const {
     register,
     handleSubmit,
-    reset,
     formState: { errors },
   } = useForm<FormValues>();
   const dispatch = useAppDispatch();
@@ -28,7 +27,7 @@ export const SignInForm = () => {
 
   const onSubmit = ({ email, password }: FormValues) => {
     dispatch(signIn({ email, password }));
-    reset();
+    // reset();
   };
 
   if (user) {

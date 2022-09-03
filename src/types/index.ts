@@ -17,8 +17,11 @@ export interface IPatient {
   birthDate: string;
 }
 
-export interface IUser {
+export interface IUserApi extends IUser {
   id: string;
+}
+
+export interface IUser {
   name: string;
   email: string;
   password: string;

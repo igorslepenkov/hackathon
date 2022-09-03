@@ -8,8 +8,9 @@ import { FormInput } from "../FormInput";
 import { FormLabel } from "../FormLabel";
 import { FormWrapper } from "../FormWrapper";
 import { isValidPhoneNumber } from "libphonenumber-js";
-import { IDoctor, IPatient } from "../../types";
-import { backend } from "../../services/backend";
+import { IUser } from "../../types";
+import { useAppDispatch } from "../../store/hooks";
+import { signUp } from "../../store/features/userSlice";
 
 interface IFormValues {
   name: string;
@@ -28,11 +29,11 @@ export const SignUpForm = () => {
     register,
     handleSubmit,
     control,
-    reset,
     formState: { errors },
     setError,
     watch,
   } = useForm<IFormValues>();
+  const dispatch = useAppDispatch();
   const [activePage, setActivePage] = useState<"first" | "doctor" | "patient">(
     "first"
   );
@@ -63,32 +64,26 @@ export const SignUpForm = () => {
       return;
     }
 
-    if (role === "patient") {
-      const patientCred: IPatient = {
-        name,
-        email,
-        password,
-        role,
-        phone,
-        birthDate,
-      };
-      backend.signUp(patientCred);
+    const userCred: IUser = {
+      name,
+      email,
+      password,
+      role,
+      phone,
+    };
+
+    if (specialty) {
+      userCred.specialty = specialty;
+    }
+    if (document) {
+      userCred.document = document;
+    }
+    if (birthDate) {
+      userCred.birthDate = birthDate;
     }
 
-    if (role === "doctor") {
-      const doctorCred: IDoctor = {
-        name,
-        email,
-        password,
-        role,
-        phone,
-        specialty,
-        document,
-      };
-      backend.signUp(doctorCred);
-    }
-
-    reset();
+    dispatch(signUp(userCred));
+    // reset();
   };
 
   return (
@@ -239,13 +234,13 @@ export const SignUpForm = () => {
             {...register("birthDate", {
               required: "Please enter your birth date",
             })}
-            id="specialty"
+            id="birthDate"
             type="date"
           />
         </>
       )}
 
-      <Button type="submit">Sumbit</Button>
+      <Button type="submit">Submit</Button>
     </FormWrapper>
   );
 };

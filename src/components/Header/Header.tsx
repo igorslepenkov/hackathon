@@ -29,7 +29,7 @@ export const Header = () => {
           >
             Profile <StyledProfileLogo />
           </StyledLink>
-          <StyledLink to={resolvePath(ROUTE.HOME)}>
+          <StyledLink to={resolvePath(ROUTE.CALENDAR)}>
             Calendar <StyledCalendarLogo />
           </StyledLink>
         </NavLinks>

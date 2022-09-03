@@ -4,6 +4,13 @@ import { Color, fonts, Media } from "../../ui";
 export const StyledCalendarForm = styled.form`
   align-self: center;
   justify-self: center;
+  display: flex;
+  flex-direction: column;
+`;
+
+export const Calendar = styled.div`
+  align-self: center;
+  justify-self: center;
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   align-items: center;
@@ -18,18 +25,29 @@ export const CalendarDateBadge = styled.label`
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: center;
+  width: 80px;
+  height: 80px;
   padding: 15px;
-  ${fonts.h4}
+  ${fonts.h5}
   color: ${Color.DarkBluePrim};
-  background-color: ${Color.BluePrimary};
+  background-color: ${Color.YellowPrimary};
   text-align: center;
-  border-radius: 50%;
+  border-radius: 20px;
 
   ${Media.SM} {
+    width: 90px;
+    height: 90px;
     padding: 25px;
-    ${fonts.h3};
+    ${fonts.h4};
   }
 `;
+
 export const CalendarDateCheckbox = styled.input.attrs({ type: "checkbox" })`
   display: none;
+`;
+
+export const CalendarInput = styled.input`
+  ${fonts.h3}
+  color: ${Color.DarkBluePrim};
 `;
