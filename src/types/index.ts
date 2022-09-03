@@ -38,3 +38,16 @@ export interface IDate {
   day: string;
   dayOfWeek: number;
 }
+
+export interface IDoctorSchedule {
+  id: string;
+  role: "DOCTOR" | "PATIENT";
+  schedule: { start: string; end: string; date: string }[];
+}
+
+export type IDoctorScheduleApi = {
+  userAccountId: string;
+  start: string;
+  end: string;
+  date: string;
+}[];

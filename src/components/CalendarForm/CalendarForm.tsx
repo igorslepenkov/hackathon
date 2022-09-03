@@ -1,5 +1,7 @@
 import { useForm } from "react-hook-form";
-import { useAppSelector } from "../../store/hooks";
+import { setUserSchedule } from "../../store/features";
+import { useAppDispatch, useAppSelector } from "../../store/hooks";
+import { IDoctorSchedule } from "../../types";
 import { getDateArrayFromToday, getDateStringFromDate } from "../../utils";
 import { Button } from "../Button";
 import { FormErrorNotification } from "../FormErrorNotification";
@@ -18,6 +20,7 @@ type FormValues = {
 
 export const CalendarForm = () => {
   const user = useAppSelector((state) => state.user.user);
+  const dispatch = useAppDispatch();
   const {
     register,
     handleSubmit,
@@ -28,24 +31,24 @@ export const CalendarForm = () => {
   const values = watch();
   const nearestTwoWeeksArray = getDateArrayFromToday(14);
   const onSubmit = (values: FormValues) => {
-    const { start, end, duration } = values;
+    const { start, end } = values;
     const datesArray = Object.entries(values).filter(
       (entry) =>
-        entry[0] !== "start" &&
-        entry[0] !== "end" &&
-        entry[0] !== "duration" &&
-        entry[0] !== "duration" &&
-        entry[1] !== false
+        entry[0] !== "start" && entry[0] !== "end" && entry[1] !== false
     );
     const arrayOfDatesToReturn = datesArray.map((date) => {
-      return { date: date[0], start, end, duration };
+      return { date: date[0], start, end };
     });
     const doctorSchedule = {
       id: user?.id,
       role: user?.role,
       schedule: arrayOfDatesToReturn,
     };
-    console.log(doctorSchedule);
+
+    const objectToServer = Object.assign({}, doctorSchedule) as IDoctorSchedule;
+
+    dispatch(setUserSchedule(objectToServer));
+
     reset();
   };
   return (
@@ -88,31 +91,6 @@ export const CalendarForm = () => {
       />
       {errors && errors.end && errors.end.message && (
         <FormErrorNotification message={errors.end.message} />
-      )}
-
-      <FormLabel>Enter duration of visit in minutes</FormLabel>
-      <FormInput
-        type="number"
-        placeholder="Duration in minutes"
-        {...register("duration", {
-          required: "Enter visit duration",
-          validate: (value) => {
-            return Number(value) % 10 === 0;
-          },
-          max: {
-            value: 60,
-            message: "Your duration must be not longer than 60 min",
-          },
-        })}
-      />
-      {errors && errors.duration && errors.duration && (
-        <FormErrorNotification
-          message={
-            errors.duration.message
-              ? errors.duration.message
-              : "Your visit duration must a multiple of 10"
-          }
-        />
       )}
       <Button>Submit</Button>
     </StyledCalendarForm>

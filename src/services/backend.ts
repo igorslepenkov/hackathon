@@ -1,9 +1,11 @@
 import axios from "axios";
-import { IUser, IUserApi } from "../types";
+import { IDoctorSchedule, IDoctorScheduleApi, IUser, IUserApi } from "../types";
 
 export enum Endpoint {
   SING_UP = "register",
   SIGN_IN = "login",
+  SCHEDULE = "schedule",
+  SCHEDULE_GET = "schedule/doctor",
 }
 
 class Backend {
@@ -34,6 +36,28 @@ class Backend {
           password: "1111",
         },
       }
+    );
+    console.log(response);
+    return response.data;
+  };
+
+  public setDoctorSchedule = async (doctorSchedule: IDoctorSchedule) => {
+    const response = await this.API.post<IDoctorScheduleApi>(
+      Endpoint.SCHEDULE,
+      doctorSchedule,
+      {
+        auth: {
+          username: "admin@gmail.com",
+          password: "1111",
+        },
+      }
+    );
+    console.log(response);
+    return response.data;
+  };
+  public getDoctorSchedule = async (doctorId: string) => {
+    const response = await this.API.get<IDoctorScheduleApi>(
+      `${Endpoint.SCHEDULE}/${doctorId}`
     );
     console.log(response);
     return response.data;

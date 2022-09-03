@@ -41,7 +41,7 @@ export const StyledLink = styled(Link)`
   align-items: center;
   gap: 10px;
   ${fonts.h3}
-  color: ${Color.White};
+  color: ${Color.BluePrimary};
   text-decoration: none;
   text-align: center;
 `;

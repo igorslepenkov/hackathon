@@ -2,7 +2,7 @@ import { useForm } from "react-hook-form";
 import { Navigate, resolvePath } from "react-router-dom";
 import { emailRegex } from "../../regex";
 import { ROUTE } from "../../router";
-import { signIn } from "../../store/features";
+import { getUserSchedule, signIn } from "../../store/features";
 import { useAppDispatch, useAppSelector } from "../../store/hooks";
 import { Button } from "../Button";
 import { FormErrorNotification } from "../FormErrorNotification";
@@ -27,6 +27,10 @@ export const SignInForm = () => {
 
   const onSubmit = ({ email, password }: FormValues) => {
     dispatch(signIn({ email, password }));
+    if (user && user.id) {
+      dispatch(getUserSchedule(user.id));
+    }
+
     reset();
   };
 

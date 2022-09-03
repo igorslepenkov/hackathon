@@ -37,17 +37,34 @@ export const TitleTabs = styled.div`
   display: flex;
   justify-content: space-around;
 `;
+
 export const Tab = styled.div<TabProps>`
   ${({ isActive }) => {
     if (isActive) {
       return css`
-        border-bottom: 3px solid ${Color.YellowPrimary};
+        border-bottom: 3px solid ${Color.BluePrimary};
       `;
     }
-
     return css`
-      border-bottom: 1px solid ${Color.YellowPrimary};
+      border-bottom: 1px solid ${Color.BluePrimary};
     `;
   }}
   flex-grow: 1;
+  cursor: pointer;
+`;
+
+export const ScheduleTable = styled.div`
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: auto;
+  column-gap: 20px;
+  row-gap: 20px;
+`;
+
+export const ScheduleTableData = styled.p`
+  display: grid;
+  align-items: center;
+  justify-content: center;
+  ${fonts.h3}
+  color: ${Color.BluePrimary};
 `;

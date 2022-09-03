@@ -1,12 +1,18 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { AxiosError } from "axios";
 import { backend } from "../../services/backend";
-import { IUser, IUserApi } from "../../types";
+import {
+  IDoctorSchedule,
+  IDoctorScheduleApi,
+  IUser,
+  IUserApi,
+} from "../../types";
 
 type InitialState = {
   error: string | null;
   user: IUserApi | null;
   isUserLoggedIn: boolean;
+  userSchedule: IDoctorScheduleApi | null;
 };
 
 type SignInCred = {
@@ -18,6 +24,7 @@ const initialState: InitialState = {
   error: null,
   user: null,
   isUserLoggedIn: false,
+  userSchedule: null,
 };
 
 const signIn = createAsyncThunk<IUserApi, SignInCred, { rejectValue: string }>(
@@ -45,6 +52,34 @@ const signUp = createAsyncThunk<IUserApi, IUser, { rejectValue: string }>(
     }
   }
 );
+
+const setUserSchedule = createAsyncThunk<
+  IDoctorScheduleApi,
+  IDoctorSchedule,
+  { rejectValue: string }
+>("user/setSchedule", async (schedule, { rejectWithValue }) => {
+  try {
+    const response = await backend.setDoctorSchedule(schedule);
+    return response;
+  } catch (err) {
+    const newErr = err as AxiosError;
+    return rejectWithValue(`Error ${newErr.code}`);
+  }
+});
+
+const getUserSchedule = createAsyncThunk<
+  IDoctorScheduleApi,
+  string,
+  { rejectValue: string }
+>("user/getSchedule", async (id, { rejectWithValue }) => {
+  try {
+    const response = await backend.getDoctorSchedule(id);
+    return response;
+  } catch (err) {
+    const newErr = err as AxiosError;
+    return rejectWithValue(`Error ${newErr.code}`);
+  }
+});
 
 export const userSlice = createSlice({
   name: "user",
@@ -74,9 +109,15 @@ export const userSlice = createSlice({
         state.error = action.payload;
       }
     });
+    builder.addCase(setUserSchedule.fulfilled, (state, action) => {
+      state.userSchedule = action.payload;
+    });
+    builder.addCase(getUserSchedule.fulfilled, (state, action) => {
+      state.userSchedule = action.payload;
+    });
   },
 });
 
-export { signIn, signUp };
+export { signIn, signUp, setUserSchedule, getUserSchedule };
 export const { signOut } = userSlice.actions;
 export default userSlice.reducer;

@@ -10,7 +10,7 @@ import { FormWrapper } from "../FormWrapper";
 import { isValidPhoneNumber } from "libphonenumber-js";
 import { IUser } from "../../types";
 import { useAppDispatch, useAppSelector } from "../../store/hooks";
-import { signUp } from "../../store/features/userSlice";
+import { getUserSchedule, signUp } from "../../store/features/userSlice";
 import { Navigate, resolvePath } from "react-router-dom";
 import { ROUTE } from "../../router";
 import Select from "react-select";
@@ -102,6 +102,9 @@ export const SignUpForm = () => {
 
     console.log(userCred);
     dispatch(signUp(userCred));
+    if (user && user.id) {
+      dispatch(getUserSchedule(user.id));
+    }
     reset();
   };
 

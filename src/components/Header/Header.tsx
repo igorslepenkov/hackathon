@@ -42,7 +42,7 @@ export const Header = () => {
 
           {currentUser.role === "DOCTOR" && (
             <StyledLink to={resolvePath(ROUTE.CALENDAR)}>
-              Calendar <StyledCalendarLogo />
+              Set Calendar <StyledCalendarLogo />
             </StyledLink>
           )}
 
