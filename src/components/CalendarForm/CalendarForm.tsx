@@ -1,4 +1,3 @@
-import { useForm } from "react-hook-form";
 import { getDateArrayFromToday, getDateStringFromDate } from "../../utils";
 import { Button } from "../Button";
 import { FormInput } from "../FormInput";
@@ -7,21 +6,14 @@ import {
   Calendar,
   CalendarDateBadge,
   CalendarDateCheckbox,
-  CalendarInput,
   StyledCalendarForm,
 } from "./style";
 
-type FormValues = {
-  [key: string]: string;
-};
+// type FormValues = {
+//   [key: string]: string;
+// };
 
 export const CalendarForm = () => {
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-    reset,
-  } = useForm();
   const nearestTwoWeeksArray = getDateArrayFromToday(14);
   return (
     <StyledCalendarForm>
