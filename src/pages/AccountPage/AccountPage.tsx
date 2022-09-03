@@ -1,5 +1,6 @@
 import { Page } from "../../components/Page";
 import { Title } from "../../components/Title";
+import { useAppSelector } from "../../store/hooks";
 import { getUser } from "../../store/selectors";
 import { Color } from "../../ui";
 import {
@@ -9,7 +10,7 @@ import {
 } from "./style";
 
 export const AccountPage = () => {
-  const user = getUser();
+  const user = useAppSelector((state) => state.user.user);
   return (
     <Page>
       <AccountPageContentWrapper>

@@ -11,10 +11,11 @@ import { v4 as uuidv4 } from "uuid";
 import { getUser, getUserIsLoggedIn } from "../../store/selectors";
 import { resolvePath } from "react-router-dom";
 import { ROUTE } from "../../router";
+import { useAppSelector } from "../../store/hooks";
 
 export const Header = () => {
-  const isUserLoggedIn = getUserIsLoggedIn();
-  const currentUser = getUser();
+  const isUserLoggedIn = useAppSelector((state) => state.user.isUserLoggedIn);
+  const currentUser = useAppSelector((state) => state.user.user);
 
   return (
     <StyledHeader id={uuidv4()}>
