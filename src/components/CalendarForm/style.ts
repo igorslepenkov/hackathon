@@ -33,7 +33,6 @@ export const CalendarDateBadge = styled.label<BadgeProps>`
   justify-content: center;
   width: 80px;
   height: 80px;
-  padding: 15px;
   ${fonts.h5}
   ${({ isActive }: BadgeProps) => {
     console.log();
@@ -55,13 +54,19 @@ export const CalendarDateBadge = styled.label<BadgeProps>`
   ${Media.SM} {
     width: 90px;
     height: 90px;
-    padding: 25px;
     ${fonts.h4};
   }
 `;
 
 export const CalendarDateCheckbox = styled.input.attrs({ type: "checkbox" })`
   display: none;
+  width: 100%;
+  height: 100%;
+  margin: 15px;
+
+  ${Media.SM} {
+    padding: 25px;
+  }
 `;
 
 export const CalendarInput = styled.input`

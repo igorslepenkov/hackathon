@@ -11,8 +11,8 @@ export const getDateArrayFromToday = (numberOfDays: number) => {
   const mappedDatesArray = datesArray.map((date) => {
     return {
       year: date.getFullYear(),
-      month: date.getMonth() + 1,
-      day: date.getDate() + 1,
+      month: (date.getMonth() + 1).toString().padStart(2, "0"),
+      day: (date.getDate() + 1).toString().padStart(2, "0"),
       dayOfWeek: date.getDay() + 1,
     };
   });

@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { Page } from "../../components/Page";
 import { Title } from "../../components/Title";
 import { useAppSelector } from "../../store/hooks";
@@ -6,17 +7,44 @@ import {
   AccountPageContentWrapper,
   AccountPageValue,
   AccountTable,
+  Tab,
+  TitleTabs,
 } from "./style";
 
 export const AccountPage = () => {
+  const [activeTab, setActiveTab] = useState<"profile" | "calendar">("profile");
+  const toggleActiveTab = (value: "profile" | "calendar") => {
+    setActiveTab(value);
+  };
   const user = useAppSelector((state) => state.user.user);
   return (
     <Page>
       <AccountPageContentWrapper>
-        <Title grade={1} color={Color.BluePrimary}>
-          Profile
-        </Title>
-        <i className="fa-regular fa-arrow-right-from-bracket"></i>
+        {user && user.role === "DOCTOR" ? (
+          <TitleTabs>
+            <Tab
+              onClick={() => toggleActiveTab("profile")}
+              isActive={activeTab === "profile"}
+            >
+              <Title grade={1} color={Color.BluePrimary}>
+                Profile
+              </Title>
+            </Tab>
+            <Tab
+              onClick={() => toggleActiveTab("calendar")}
+              isActive={activeTab === "calendar"}
+            >
+              <Title grade={1} color={Color.BluePrimary}>
+                Calendar
+              </Title>
+            </Tab>
+          </TitleTabs>
+        ) : (
+          <Title grade={1} color={Color.BluePrimary}>
+            Profile
+          </Title>
+        )}
+
         <AccountTable>
           <Title grade={3} color={Color.BluePrimary}>
             Name

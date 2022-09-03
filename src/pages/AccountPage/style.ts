@@ -1,5 +1,10 @@
 import styled from "styled-components";
+import { css } from "styled-components";
 import { Color, fonts, Media } from "../../ui";
+
+type TabProps = {
+  isActive: boolean;
+};
 
 export const AccountPageContentWrapper = styled.div`
   justify-self: center;
@@ -26,4 +31,23 @@ export const AccountPageValue = styled.p`
   color: ${Color.BlueSecondary};
   vertical-align: center;
   border-bottom: 2px solid ${Color.BluePrimary};
+`;
+
+export const TitleTabs = styled.div`
+  display: flex;
+  justify-content: space-around;
+`;
+export const Tab = styled.div<TabProps>`
+  ${({ isActive }) => {
+    if (isActive) {
+      return css`
+        border-bottom: 3px solid ${Color.YellowPrimary};
+      `;
+    }
+
+    return css`
+      border-bottom: 1px solid ${Color.YellowPrimary};
+    `;
+  }}
+  flex-grow: 1;
 `;

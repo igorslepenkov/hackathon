@@ -39,9 +39,12 @@ export const Header = () => {
           >
             Profile <StyledProfileLogo />
           </StyledLink>
-          <StyledLink to={resolvePath(ROUTE.CALENDAR)}>
-            Calendar <StyledCalendarLogo />
-          </StyledLink>
+
+          {currentUser.role === "DOCTOR" && (
+            <StyledLink to={resolvePath(ROUTE.CALENDAR)}>
+              Calendar <StyledCalendarLogo />
+            </StyledLink>
+          )}
 
           <SignOutButton type="button" onClick={handleSignOut}>
             SignOut

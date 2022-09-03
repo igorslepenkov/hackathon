@@ -28,7 +28,7 @@ export const getDateStringFromDate = (date: IDate) => {
   ];
   const weekDaysMap = new Map<number, string>(weekDaysList);
 
-  return `${date.day} ${monthMap.get(date.month)} (${weekDaysMap.get(
+  return `${date.day} ${monthMap.get(Number(date.month))} (${weekDaysMap.get(
     date.dayOfWeek
   )})`;
 };

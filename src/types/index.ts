@@ -34,7 +34,7 @@ export interface IUser {
 
 export interface IDate {
   year: number;
-  month: number;
-  day: number;
+  month: string;
+  day: string;
   dayOfWeek: number;
 }

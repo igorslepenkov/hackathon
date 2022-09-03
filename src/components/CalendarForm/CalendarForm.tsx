@@ -1,4 +1,5 @@
 import { useForm } from "react-hook-form";
+import { useAppSelector } from "../../store/hooks";
 import { getDateArrayFromToday, getDateStringFromDate } from "../../utils";
 import { Button } from "../Button";
 import { FormErrorNotification } from "../FormErrorNotification";
@@ -16,6 +17,7 @@ type FormValues = {
 };
 
 export const CalendarForm = () => {
+  const user = useAppSelector((state) => state.user.user);
   const {
     register,
     handleSubmit,
@@ -26,8 +28,24 @@ export const CalendarForm = () => {
   const values = watch();
   const nearestTwoWeeksArray = getDateArrayFromToday(14);
   const onSubmit = (values: FormValues) => {
-    const filteredArray = Object.entries(values).filter((entry) => entry[1]);
-    console.log(Object.fromEntries(filteredArray));
+    const { start, end, duration } = values;
+    const datesArray = Object.entries(values).filter(
+      (entry) =>
+        entry[0] !== "start" &&
+        entry[0] !== "end" &&
+        entry[0] !== "duration" &&
+        entry[0] !== "duration" &&
+        entry[1] !== false
+    );
+    const arrayOfDatesToReturn = datesArray.map((date) => {
+      return { date: date[0], start, end, duration };
+    });
+    const doctorSchedule = {
+      id: user?.id,
+      role: user?.role,
+      schedule: arrayOfDatesToReturn,
+    };
+    console.log(doctorSchedule);
     reset();
   };
   return (
@@ -37,14 +55,14 @@ export const CalendarForm = () => {
           return (
             <CalendarDateBadge
               key={date.day}
-              htmlFor={`${date.month}/${date.day}`}
-              isActive={!!values[`${date.month}/${date.day}`]}
+              htmlFor={`${date.year}-${date.month}-${date.day}`}
+              isActive={!!values[`${date.year}-${date.month}-${date.day}`]}
             >
               {getDateStringFromDate(date)}
               <CalendarDateCheckbox
-                id={`${date.month}/${date.day}`}
-                value={`${date.month}/${date.day}`}
-                {...register(`${date.month}/${date.day}`)}
+                id={`${date.year}-${date.month}-${date.day}`}
+                value={`${date.year}-${date.month}-${date.day}`}
+                {...register(`${date.year}-${date.month}-${date.day}`)}
               />
             </CalendarDateBadge>
           );
