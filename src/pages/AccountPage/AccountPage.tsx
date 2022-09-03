@@ -1,7 +1,6 @@
 import { Page } from "../../components/Page";
 import { Title } from "../../components/Title";
 import { useAppSelector } from "../../store/hooks";
-import { getUser } from "../../store/selectors";
 import { Color } from "../../ui";
 import {
   AccountPageContentWrapper,

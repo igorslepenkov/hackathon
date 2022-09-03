@@ -8,7 +8,6 @@ import {
   StyledProfileLogo,
 } from "./style";
 import { v4 as uuidv4 } from "uuid";
-import { getUser, getUserIsLoggedIn } from "../../store/selectors";
 import { resolvePath } from "react-router-dom";
 import { ROUTE } from "../../router";
 import { useAppSelector } from "../../store/hooks";

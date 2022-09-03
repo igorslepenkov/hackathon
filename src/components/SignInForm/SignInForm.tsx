@@ -4,7 +4,6 @@ import { emailRegex } from "../../regex";
 import { ROUTE } from "../../router";
 import { signIn } from "../../store/features";
 import { useAppDispatch, useAppSelector } from "../../store/hooks";
-import { getUser } from "../../store/selectors";
 import { Button } from "../Button";
 import { FormErrorNotification } from "../FormErrorNotification";
 import { FormInput } from "../FormInput";
