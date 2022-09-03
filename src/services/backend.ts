@@ -3,7 +3,7 @@ import { IUser, IUserApi } from "../types";
 
 export enum Endpoint {
   SING_UP = "register",
-  SIGN_IN = "user-account",
+  SIGN_IN = "login",
 }
 
 class Backend {
