@@ -17,8 +17,11 @@ export interface IPatient {
   birthDate: string;
 }
 
-export interface IUser {
+export interface IUserApi extends IUser {
   id: string;
+}
+
+export interface IUser {
   name: string;
   email: string;
   password: string;
@@ -27,4 +30,11 @@ export interface IUser {
   specialty?: string;
   document?: string;
   birthDate?: string;
+}
+
+export interface IDate {
+  year: number;
+  month: number;
+  day: number;
+  dayOfWeek: number;
 }
