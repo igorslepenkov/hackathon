@@ -3,7 +3,7 @@ import { Navigate, resolvePath } from "react-router-dom";
 import { emailRegex } from "../../regex";
 import { ROUTE } from "../../router";
 import { signIn } from "../../store/features";
-import { useAppDispatch } from "../../store/hooks";
+import { useAppDispatch, useAppSelector } from "../../store/hooks";
 import { getUser } from "../../store/selectors";
 import { Button } from "../Button";
 import { FormErrorNotification } from "../FormErrorNotification";
@@ -23,7 +23,7 @@ export const SignInForm = () => {
     formState: { errors },
   } = useForm<FormValues>();
   const dispatch = useAppDispatch();
-  const user = getUser();
+  const user = useAppSelector((state) => state.user.user);
 
   const onSubmit = ({ email, password }: FormValues) => {
     dispatch(signIn({ email, password }));
