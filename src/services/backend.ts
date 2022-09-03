@@ -10,7 +10,6 @@ class Backend {
   private readonly BASE_URL = process.env.REACT_APP_HACKATHONE_API as string;
   private readonly API = axios.create({
     baseURL: this.BASE_URL,
-    headers: { "Access-Control-Allow-Origin": "*" },
   });
   public signUp = async (user: IUser): Promise<IUserApi> => {
     const response = await this.API.post(Endpoint.SING_UP, user, {
