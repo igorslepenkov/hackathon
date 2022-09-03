@@ -1,5 +1,10 @@
 import styled from "styled-components";
+import { css } from "styled-components";
 import { Color, fonts, Media } from "../../ui";
+
+type BadgeProps = {
+  isActive: boolean;
+};
 
 export const StyledCalendarForm = styled.form`
   align-self: center;
@@ -21,7 +26,7 @@ export const Calendar = styled.div`
   }
 `;
 
-export const CalendarDateBadge = styled.label`
+export const CalendarDateBadge = styled.label<BadgeProps>`
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -30,8 +35,20 @@ export const CalendarDateBadge = styled.label`
   height: 80px;
   padding: 15px;
   ${fonts.h5}
-  color: ${Color.DarkBluePrim};
-  background-color: ${Color.YellowPrimary};
+  ${({ isActive }: BadgeProps) => {
+    console.log();
+    if (isActive) {
+      return css`
+        color: ${Color.YellowPrimary};
+        background-color: ${Color.BlueSecondary};
+      `;
+    }
+    return css`
+      color: ${Color.DarkBluePrim};
+      background-color: ${Color.YellowPrimary};
+    `;
+  }}
+
   text-align: center;
   border-radius: 20px;
 

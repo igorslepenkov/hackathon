@@ -45,3 +45,12 @@ export const StyledLink = styled(Link)`
   text-decoration: none;
   text-align: center;
 `;
+
+export const SignOutButton = styled.button`
+  ${fonts.h3}
+  color: ${Color.BluePrimary};
+  background-color: transparent;
+  border: none;
+  border-radius: 20px;
+  cursor: pointer;
+`;

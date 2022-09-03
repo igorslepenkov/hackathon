@@ -35,6 +35,7 @@ class Backend {
         },
       }
     );
+    console.log(response);
     return response.data;
   };
 }

@@ -9,22 +9,26 @@ import { FormLabel } from "../FormLabel";
 import { FormWrapper } from "../FormWrapper";
 import { isValidPhoneNumber } from "libphonenumber-js";
 import { IUser } from "../../types";
-import { useAppDispatch } from "../../store/hooks";
+import { useAppDispatch, useAppSelector } from "../../store/hooks";
 import { signUp } from "../../store/features/userSlice";
+import { Navigate, resolvePath } from "react-router-dom";
+import { ROUTE } from "../../router";
+import Select from "react-select";
 
 interface IFormValues {
   name: string;
   email: string;
   password: string;
   confirm: string;
-  role: "patient" | "doctor";
+  role: "PATIENT" | "DOCTOR";
   phone: string;
-  specialty: string;
+  specialty: { value: string; label: string };
   document: string;
   birthDate: string;
 }
 
 export const SignUpForm = () => {
+  const user = useAppSelector((state) => state.user.user);
   const {
     register,
     handleSubmit,
@@ -32,11 +36,17 @@ export const SignUpForm = () => {
     formState: { errors },
     setError,
     watch,
+    reset,
   } = useForm<IFormValues>();
   const dispatch = useAppDispatch();
-  const [activePage, setActivePage] = useState<"first" | "doctor" | "patient">(
+  const [activePage, setActivePage] = useState<"first" | "DOCTOR" | "PATIENT">(
     "first"
   );
+  const selectSpecialtyOptions = [
+    { value: "PAEDIATRIC", label: "Paediatric" },
+    { value: "ONCOLOGIST", label: "Oncologist" },
+    { value: "DENTIST", label: "Dentist" },
+  ];
 
   const checkboxValue = watch("role");
   useEffect(() => {
@@ -73,7 +83,15 @@ export const SignUpForm = () => {
     };
 
     if (specialty) {
-      userCred.specialty = specialty;
+      if (specialty.value === "DENTIST") {
+        userCred.specialty = "DENTIST";
+      }
+      if (specialty.value === "PAEDIATRIC") {
+        userCred.specialty = "PAEDIATRIC";
+      }
+      if (specialty.value === "ONCOLOGIST") {
+        userCred.specialty = "ONCOLOGIST";
+      }
     }
     if (document) {
       userCred.document = document;
@@ -82,9 +100,14 @@ export const SignUpForm = () => {
       userCred.birthDate = birthDate;
     }
 
+    console.log(userCred);
     dispatch(signUp(userCred));
-    // reset();
+    reset();
   };
+
+  if (user) {
+    return <Navigate to={resolvePath(ROUTE.ACCOUNT.replace(/:id/, user.id))} />;
+  }
 
   return (
     <FormWrapper onSubmit={handleSubmit(onSubmit)}>
@@ -181,7 +204,7 @@ export const SignUpForm = () => {
             <CheckboxGroup
               value={value}
               name="role"
-              checkboxes={["patient", "doctor"]}
+              checkboxes={["PATIENT", "DOCTOR"]}
               onChange={onChange}
               onBlur={onBlur}
             />
@@ -192,10 +215,20 @@ export const SignUpForm = () => {
         <FormErrorNotification message={errors.role.message} />
       )}
 
-      {activePage === "doctor" && (
+      {activePage === "DOCTOR" && (
         <>
           <FormLabel htmlFor="specialty">Specilaty</FormLabel>
-          <FormInput
+          <Controller
+            control={control}
+            name="specialty"
+            render={({ field: { onChange, value, ref } }) => {
+              return (
+                <Select options={selectSpecialtyOptions} onChange={onChange} />
+              );
+            }}
+          />
+
+          {/* <FormInput
             {...register("specialty", {
               required: "Please enter your specialty",
               minLength: {
@@ -209,7 +242,7 @@ export const SignUpForm = () => {
           />
           {errors.specialty && errors.specialty.message && (
             <FormErrorNotification message={errors.specialty.message} />
-          )}
+          )} */}
 
           <FormLabel htmlFor="document">Document</FormLabel>
           <FormInput
@@ -227,7 +260,7 @@ export const SignUpForm = () => {
         </>
       )}
 
-      {activePage === "patient" && (
+      {activePage === "PATIENT" && (
         <>
           <FormLabel>Birth Date</FormLabel>
           <FormInput

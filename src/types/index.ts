@@ -2,9 +2,9 @@ export interface IDoctor {
   name: string;
   email: string;
   password: string;
-  role: "doctor";
+  role: "DOCTOR";
   phone: string;
-  specialty: string;
+  specialty: "PAEDIATRIC" | "ONCOLOGIST" | "DENTIST";
   document: string;
 }
 
@@ -12,7 +12,7 @@ export interface IPatient {
   name: string;
   email: string;
   password: string;
-  role: "patient";
+  role: "PATIENT";
   phone: string;
   birthDate: string;
 }
@@ -25,9 +25,9 @@ export interface IUser {
   name: string;
   email: string;
   password: string;
-  role: "doctor" | "patient";
+  role: "DOCTOR" | "PATIENT";
   phone: string;
-  specialty?: string;
+  specialty?: "PAEDIATRIC" | "ONCOLOGIST" | "DENTIST";
   document?: string;
   birthDate?: string;
 }

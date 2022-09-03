@@ -20,13 +20,14 @@ export const SignInForm = () => {
     register,
     handleSubmit,
     formState: { errors },
+    reset,
   } = useForm<FormValues>();
   const dispatch = useAppDispatch();
   const user = useAppSelector((state) => state.user.user);
 
   const onSubmit = ({ email, password }: FormValues) => {
     dispatch(signIn({ email, password }));
-    // reset();
+    reset();
   };
 
   if (user) {
